@@ -42,6 +42,9 @@ jobs:
         env:
           CI: true
 
+      - name: Bump package version
+        run: npm version patch
+
       - name: Publish
         run: npm publish --access public
         env:
