@@ -42,8 +42,8 @@ jobs:
         env:
           CI: true
 
-      - name: Bump package version
-        run: npm version patch
+      - name: Automated Version Bump
+        uses: phips28/gh-action-bump-version@v7.1.0
 
       - name: Publish
         run: npm publish --access public
