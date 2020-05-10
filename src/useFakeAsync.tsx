@@ -6,7 +6,7 @@ enum FakeAsyncState {
   ERROR = 'ERROR',
 }
 
-const useFakeAsync: Function = (
+export const useFakeAsync: Function = (
   callback: Function,
   delay: number = 3000,
   shouldError: boolean = false,
@@ -16,11 +16,11 @@ const useFakeAsync: Function = (
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    const succeed = chaos ? Math.random() >= 0.5 : !shouldError;
-    if (succeed) {
+    const fail = chaos ? Math.random() <= 0.5 : shouldError;
+    if (fail) {
       timer = setTimeout(() => {
-        callback();
         setState(FakeAsyncState.COMPLETE);
+        callback();
       }, delay);
     } else {
       setState(FakeAsyncState.ERROR);
@@ -30,5 +30,3 @@ const useFakeAsync: Function = (
 
   return [state];
 };
-
-export default useFakeAsync;
