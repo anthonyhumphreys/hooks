@@ -8,6 +8,11 @@ export const useProgressiveLoading: Function = (
     'Still loading, thank you for your patience...',
   ]
 ): string => {
+  if (timings.length !== strings.length) {
+    throw new Error(
+      `You passed ${timings.length} times and ${strings.length} - there should be the same number of each.`
+    );
+  }
   const [text, setText] = useState<string>('');
 
   useEffect(() => {
