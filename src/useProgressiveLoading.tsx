@@ -14,12 +14,20 @@ export const useProgressiveLoading: Function = (
     );
   }
   const [text, setText] = useState<string>('');
+  const [timers, setTimers] = useState<number[]>([]);
 
   useEffect(() => {
-    timings.forEach((delay: number, index: number) =>
-      setTimeout(() => setText(strings[index]), delay * 1000)
-    );
-    return () => setText('');
+    timings.forEach((delay: number, index: number) => {
+      const timer: number = window.setTimeout(
+        () => setText(strings[index]),
+        delay * 1000
+      );
+      setTimers(oldTimers => [...oldTimers, timer]);
+    });
+    return () => {
+      timers.forEach(timer => window.clearTimeout(timer));
+      setText('');
+    };
   }, [timings, strings]);
 
   return text;
