@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 enum StorageType {
   LOCAL_STORAGE = 'LOCAL_STORAGE',
@@ -25,7 +25,7 @@ export const useBrowserStorage = (
     }
   });
 
-  const setValue = (value: string | Function) => {
+  const setValue = useCallback((value: string | Function) => {
     try {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
@@ -34,7 +34,7 @@ export const useBrowserStorage = (
     } catch (error) {
       console.error(error);
     }
-  };
+  }, []);
 
   return [storedValue, setValue];
 };
