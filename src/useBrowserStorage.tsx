@@ -15,7 +15,7 @@ export const useBrowserStorage = (
       ? window.localStorage
       : window.sessionStorage;
 
-  const [storedValue, setStoredValue] = useState<string>(() => {
+  const [storedValue, setStoredValue] = useState(() => {
     try {
       const storedItem = storageProvider.getItem(key);
       return storedItem ? JSON.parse(storedItem) : initialValue;
@@ -25,16 +25,19 @@ export const useBrowserStorage = (
     }
   });
 
-  const setValue = useCallback((value: string | Function) => {
-    try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      storageProvider.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  const setValue = useCallback(
+    (value: any) => {
+      try {
+        const valueToStore =
+          value instanceof Function ? value(storedValue) : value;
+        setStoredValue(valueToStore);
+        storageProvider.setItem(key, JSON.stringify(valueToStore));
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [key, storageProvider, storedValue]
+  );
 
   return [storedValue, setValue];
 };
