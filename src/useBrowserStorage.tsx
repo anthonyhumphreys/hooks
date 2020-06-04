@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 
-enum StorageType {
+export enum StorageType {
   LOCAL_STORAGE = 'LOCAL_STORAGE',
   SESSION_STORAGE = 'SESSION_STORAGE',
 }
